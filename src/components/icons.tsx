@@ -1,4 +1,3 @@
-
 import {
   BarChart, 
   Book, 
@@ -34,7 +33,7 @@ import {
   Filter,
   SlidersHorizontal,
   FileSpreadsheet,
-  FilePdf,
+  FileType, // Changed from FilePdf to FileType
   Phone,
   Mail,
   MapPin,
@@ -129,7 +128,7 @@ export const Icons = {
   filter: Filter,
   sliders: SlidersHorizontal,
   excel: FileSpreadsheet,
-  pdf: FilePdf,
+  pdf: FileType, // Changed from FilePdf to FileType
   phone: Phone,
   mail: Mail,
   mapPin: MapPin,
