@@ -7,10 +7,11 @@ export interface School {
   address: string;
   logo?: string;
   status: 'active' | 'inactive';
-  classesCount: number;
-  adminsCount: number;
-  createdAt: string;
-  updatedAt: string;
+  classes_count: number;
+  admins_count: number;
+  created_at: string;
+  updated_at: string;
+  created_by?: string;
 }
 
 export interface SchoolFormData {
@@ -22,7 +23,7 @@ export interface SchoolFormData {
   status: boolean;
 }
 
-export type SortField = 'name' | 'createdAt' | 'updatedAt' | 'classesCount';
+export type SortField = 'name' | 'created_at' | 'updated_at' | 'classes_count';
 export type SortOrder = 'asc' | 'desc';
 
 export interface SchoolsFilter {

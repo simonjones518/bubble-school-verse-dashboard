@@ -67,6 +67,7 @@ import {
 } from "@/services/schoolService";
 import { School, SchoolFormData, SchoolsFilter, SortField, SortOrder } from "@/types/school";
 import { debounce } from "lodash";
+import { supabase } from "@/integrations/supabase/client";
 
 // Utility function to truncate text
 const truncateText = (text: string, maxLength: number) => {
@@ -307,9 +308,9 @@ const SchoolsManagement = () => {
               <SelectContent>
                 <SelectItem value="name-asc">Name (A-Z)</SelectItem>
                 <SelectItem value="name-desc">Name (Z-A)</SelectItem>
-                <SelectItem value="classesCount-desc">Most Classes</SelectItem>
-                <SelectItem value="createdAt-desc">Recently Added</SelectItem>
-                <SelectItem value="updatedAt-desc">Last Modified</SelectItem>
+                <SelectItem value="classes_count-desc">Most Classes</SelectItem>
+                <SelectItem value="created_at-desc">Recently Added</SelectItem>
+                <SelectItem value="updated_at-desc">Last Modified</SelectItem>
               </SelectContent>
             </Select>
 
@@ -367,6 +368,7 @@ const SchoolsManagement = () => {
                     <TableHead className="hidden md:table-cell">Classes</TableHead>
                     <TableHead className="hidden lg:table-cell">Admins</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead className="hidden md:table-cell">Created On</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -389,18 +391,21 @@ const SchoolsManagement = () => {
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         <Link to={`/school-management/classes?schoolId=${school.id}`} className="text-blue-600 hover:underline">
-                          {school.classesCount}
+                          {school.classes_count}
                         </Link>
                       </TableCell>
                       <TableCell className="hidden lg:table-cell">
                         <Link to={`/school-management/admins?schoolId=${school.id}`} className="text-blue-600 hover:underline">
-                          {school.adminsCount}
+                          {school.admins_count}
                         </Link>
                       </TableCell>
                       <TableCell>
                         <Badge variant={school.status === "active" ? "default" : "outline"}>
                           {school.status === "active" ? "Active" : "Inactive"}
                         </Badge>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {new Date(school.created_at).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end">
