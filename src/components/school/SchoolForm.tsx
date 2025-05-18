@@ -67,8 +67,13 @@ export function SchoolForm({
   };
 
   const handleSubmit = (values: SchoolFormValues) => {
+    // Create a properly typed formData object ensuring all required fields are included
     const formData: SchoolFormData = {
-      ...values,
+      name: values.name,
+      email: values.email,
+      phone: values.phone || "",
+      address: values.address,
+      status: values.status,
       logo: logoFile,
     };
     onSubmit(formData);
