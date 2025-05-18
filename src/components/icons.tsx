@@ -87,5 +87,15 @@ export const Icons = {
   booksIssued: Book,
   libraryCards: Library,
   chevronDown: ChevronDown,
-  logout: LogOut
+  logout: LogOut,
+  book: Book,
+  users: Users,
+  dollarSign: DollarSign,
+  fileText: FileText,
+  bus: Bus,
+  building: Building,
+  ticket: Ticket,
+  library: Library,
+  helpCircle: HelpCircle,
+  home: Home
 };

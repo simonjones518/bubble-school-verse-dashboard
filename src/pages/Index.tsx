@@ -166,108 +166,108 @@ const Index = () => {
           <TabsTrigger value="financial" className="data-[state=active]:bg-white rounded-full">Financial</TabsTrigger>
           <TabsTrigger value="admin" className="data-[state=active]:bg-white rounded-full">Administrative</TabsTrigger>
         </TabsList>
-      </Tabs>
 
-      <TabsContent value="overview" className="space-y-6">
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Attendance Chart */}
-          <Card className="lg:col-span-2 p-6 bubble-card">
-            <h2 className="text-lg font-medium mb-4">Student Attendance</h2>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={attendanceData}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="present" name="Present" fill="#9b87f5" />
-                  <Bar dataKey="absent" name="Absent" fill="#FFDEE2" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
+        <TabsContent value="overview" className="space-y-6">
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Attendance Chart */}
+            <Card className="lg:col-span-2 p-6 bubble-card">
+              <h2 className="text-lg font-medium mb-4">Student Attendance</h2>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={attendanceData}>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="present" name="Present" fill="#9b87f5" />
+                    <Bar dataKey="absent" name="Absent" fill="#FFDEE2" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
 
-          {/* Revenue Sources */}
+            {/* Revenue Sources */}
+            <Card className="p-6 bubble-card">
+              <h2 className="text-lg font-medium mb-4">Revenue Sources</h2>
+              <div className="h-64 flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={revenueData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {revenueData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
+
+          {/* Activity and Timeline */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ActivityLog activities={activities} />
+            <TimelineComponent events={upcomingEvents} />
+          </div>
+
+          {/* Quick Actions */}
           <Card className="p-6 bubble-card">
-            <h2 className="text-lg font-medium mb-4">Revenue Sources</h2>
-            <div className="h-64 flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={revenueData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {revenueData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+            <h2 className="text-lg font-medium mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                {icon: Icons.students, label: "Add Student"},
+                {icon: Icons.staffList, label: "Add Staff"},
+                {icon: Icons.event, label: "Schedule Event"},
+                {icon: Icons.tickets, label: "Create Ticket"}
+              ].map((action, i) => (
+                <button key={i} className="flex flex-col items-center justify-center p-4 rounded-xl bg-bubble-light/30 hover:bg-bubble-light transition-colors">
+                  <div className="p-3 rounded-full bg-white mb-2">
+                    <action.icon size={24} className="text-bubble-primary" />
+                  </div>
+                  <span className="text-sm font-medium">{action.label}</span>
+                </button>
+              ))}
             </div>
           </Card>
-        </div>
+        </TabsContent>
 
-        {/* Activity and Timeline */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ActivityLog activities={activities} />
-          <TimelineComponent events={upcomingEvents} />
-        </div>
-
-        {/* Quick Actions */}
-        <Card className="p-6 bubble-card">
-          <h2 className="text-lg font-medium mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {icon: Icons.students, label: "Add Student"},
-              {icon: Icons.staffList, label: "Add Staff"},
-              {icon: Icons.event, label: "Schedule Event"},
-              {icon: Icons.tickets, label: "Create Ticket"}
-            ].map((action, i) => (
-              <button key={i} className="flex flex-col items-center justify-center p-4 rounded-xl bg-bubble-light/30 hover:bg-bubble-light transition-colors">
-                <div className="p-3 rounded-full bg-white mb-2">
-                  <action.icon size={24} className="text-bubble-primary" />
-                </div>
-                <span className="text-sm font-medium">{action.label}</span>
-              </button>
-            ))}
+        <TabsContent value="academic">
+          <div className="grid place-items-center h-64">
+            <div className="text-center">
+              <h3 className="text-2xl font-medium text-bubble-primary mb-2">Academic Dashboard</h3>
+              <p className="text-bubble-neutral">Academic module details will appear here.</p>
+            </div>
           </div>
-        </Card>
-      </TabsContent>
+        </TabsContent>
 
-      <TabsContent value="academic">
-        <div className="grid place-items-center h-64">
-          <div className="text-center">
-            <h3 className="text-2xl font-medium text-bubble-primary mb-2">Academic Dashboard</h3>
-            <p className="text-bubble-neutral">Academic module details will appear here.</p>
+        <TabsContent value="financial">
+          <div className="grid place-items-center h-64">
+            <div className="text-center">
+              <h3 className="text-2xl font-medium text-bubble-primary mb-2">Financial Dashboard</h3>
+              <p className="text-bubble-neutral">Financial module details will appear here.</p>
+            </div>
           </div>
-        </div>
-      </TabsContent>
+        </TabsContent>
 
-      <TabsContent value="financial">
-        <div className="grid place-items-center h-64">
-          <div className="text-center">
-            <h3 className="text-2xl font-medium text-bubble-primary mb-2">Financial Dashboard</h3>
-            <p className="text-bubble-neutral">Financial module details will appear here.</p>
+        <TabsContent value="admin">
+          <div className="grid place-items-center h-64">
+            <div className="text-center">
+              <h3 className="text-2xl font-medium text-bubble-primary mb-2">Administrative Dashboard</h3>
+              <p className="text-bubble-neutral">Administrative module details will appear here.</p>
+            </div>
           </div>
-        </div>
-      </TabsContent>
-
-      <TabsContent value="admin">
-        <div className="grid place-items-center h-64">
-          <div className="text-center">
-            <h3 className="text-2xl font-medium text-bubble-primary mb-2">Administrative Dashboard</h3>
-            <p className="text-bubble-neutral">Administrative module details will appear here.</p>
-          </div>
-        </div>
-      </TabsContent>
+        </TabsContent>
+      </Tabs>
     </DashboardLayout>
   );
 };

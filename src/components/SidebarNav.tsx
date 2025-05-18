@@ -298,37 +298,37 @@ export function SidebarNav() {
 
           <SidebarMenu 
             label="Academic" 
-            icon="book" 
+            icon="classes" 
             subMenus={academicMenu}
           />
 
           <SidebarMenu 
             label="Student" 
-            icon="users" 
+            icon="students" 
             subMenus={studentMenu}
           />
 
           <SidebarMenu 
             label="Administrator" 
-            icon="users" 
+            icon="admins" 
             subMenus={administratorMenu}
           />
 
           <SidebarMenu 
             label="Accounting" 
-            icon="dollarSign" 
+            icon="income" 
             subMenus={accountingMenu}
           />
 
           <SidebarMenu 
             label="Examination" 
-            icon="fileText" 
+            icon="manageExams" 
             subMenus={examinationMenu}
           />
 
           <SidebarMenu 
             label="Transportation" 
-            icon="bus" 
+            icon="vehicles" 
             subMenus={transportationMenu}
           />
 
@@ -340,25 +340,25 @@ export function SidebarNav() {
 
           <SidebarMenu 
             label="Hostel" 
-            icon="building" 
+            icon="hostels" 
             subMenus={hostelMenu}
           />
 
           <SidebarMenu 
             label="Lessons" 
-            icon="book" 
+            icon="lessons" 
             subMenus={lessonsMenu}
           />
 
           <SidebarMenu 
             label="Tickets" 
-            icon="ticket" 
+            icon="tickets" 
             subMenus={ticketsMenu}
           />
 
           <SidebarMenu 
             label="Library" 
-            icon="library" 
+            icon="libraryCards" 
             subMenus={libraryMenu}
           />
         </div>
