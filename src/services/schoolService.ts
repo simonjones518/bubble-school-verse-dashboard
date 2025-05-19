@@ -77,7 +77,7 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
     address: schoolData.address,
     logo: logoUrl,
     status: schoolData.status ? 'active' : 'inactive',
-    created_by: user?.id,
+    created_by: user?.id || null,
   };
   
   const { data, error } = await supabase
