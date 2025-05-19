@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -118,9 +117,21 @@ const SchoolsManagement = () => {
       setAddDialogOpen(false);
     },
     onError: (error) => {
+      console.error("School creation error:", error);
+      let errorMessage = error.message;
+      
+      // Check for authentication errors
+      if (errorMessage.includes("Authentication required")) {
+        errorMessage = "You need to be logged in to add a school. Please sign in and try again.";
+      } 
+      // Check for RLS policy errors
+      else if (errorMessage.includes("row-level security policy")) {
+        errorMessage = "Permission denied: You don't have the required permissions to add a school.";
+      }
+      
       toast({
         title: "Error",
-        description: `Failed to add school: ${error.message}`,
+        description: `Failed to add school: ${errorMessage}`,
         variant: "destructive",
       });
     },

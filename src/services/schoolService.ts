@@ -35,7 +35,13 @@ export const getSchools = async (filters?: SchoolsFilter): Promise<School[]> => 
     throw new Error(`Failed to fetch schools: ${error.message}`);
   }
   
-  return data || [];
+  // Cast the status to the expected type
+  const typedData = data?.map(school => ({
+    ...school,
+    status: school.status as 'active' | 'inactive'
+  })) || [];
+  
+  return typedData;
 };
 
 // Get a single school by ID
@@ -51,11 +57,23 @@ export const getSchoolById = async (id: string): Promise<School | null> => {
     throw new Error(`Failed to fetch school: ${error.message}`);
   }
   
-  return data || null;
+  if (!data) return null;
+  
+  // Cast the status to the expected type
+  return {
+    ...data,
+    status: data.status as 'active' | 'inactive'
+  };
 };
 
 // Create a new school
 export const createSchool = async (schoolData: SchoolFormData): Promise<School> => {
+  // First check if user is authenticated
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error('Authentication required to create a school');
+  }
+
   // Upload logo if provided
   let logoUrl;
   if (schoolData.logo) {
@@ -67,9 +85,6 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
     logoUrl = URL.createObjectURL(schoolData.logo); // Temporary URL for demo
   }
   
-  // Get current user
-  const { data: { user } } = await supabase.auth.getUser();
-  
   const newSchool = {
     name: schoolData.name,
     email: schoolData.email,
@@ -77,7 +92,7 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
     address: schoolData.address,
     logo: logoUrl,
     status: schoolData.status ? 'active' : 'inactive',
-    created_by: user?.id || null,
+    created_by: session.user.id, // Set the created_by field to the current user's ID
   };
   
   const { data, error } = await supabase
@@ -94,11 +109,21 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
     throw new Error('Failed to create school: No data returned');
   }
   
-  return data[0];
+  // Cast the status to the expected type
+  return {
+    ...data[0],
+    status: data[0].status as 'active' | 'inactive'
+  };
 };
 
 // Update an existing school
 export const updateSchool = async (id: string, schoolData: SchoolFormData): Promise<School> => {
+  // Check if user is authenticated
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error('Authentication required to update a school');
+  }
+
   // Upload logo if provided
   let logoUrl;
   if (schoolData.logo) {
@@ -138,11 +163,21 @@ export const updateSchool = async (id: string, schoolData: SchoolFormData): Prom
     throw new Error('Failed to update school: No data returned');
   }
   
-  return data[0];
+  // Cast the status to the expected type
+  return {
+    ...data[0],
+    status: data[0].status as 'active' | 'inactive'
+  };
 };
 
 // Delete a school
 export const deleteSchool = async (id: string): Promise<boolean> => {
+  // Check if user is authenticated
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error('Authentication required to delete a school');
+  }
+
   const { error } = await supabase
     .from('schools')
     .delete()
