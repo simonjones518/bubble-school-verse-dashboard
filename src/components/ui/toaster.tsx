@@ -19,12 +19,38 @@ export function Toaster() {
           <Toast 
             key={id} 
             {...props}
-            className={variant === "destructive" ? "border-red-500 bg-red-50 text-red-900" : ""}
+            className={
+              variant === "destructive" 
+                ? "border-red-500 bg-red-50 text-red-900" 
+                : variant === "success"
+                  ? "border-green-500 bg-green-50 text-green-900"
+                  : ""
+            }
           >
             <div className="grid gap-1">
-              {title && <ToastTitle className={variant === "destructive" ? "text-red-900 font-bold" : ""}>{title}</ToastTitle>}
+              {title && (
+                <ToastTitle 
+                  className={
+                    variant === "destructive" 
+                      ? "text-red-900 font-bold" 
+                      : variant === "success" 
+                        ? "text-green-900 font-bold" 
+                        : ""
+                  }
+                >
+                  {title}
+                </ToastTitle>
+              )}
               {description && (
-                <ToastDescription className={variant === "destructive" ? "text-red-800" : ""}>
+                <ToastDescription 
+                  className={
+                    variant === "destructive" 
+                      ? "text-red-800" 
+                      : variant === "success" 
+                        ? "text-green-800" 
+                        : ""
+                  }
+                >
                   {description}
                 </ToastDescription>
               )}

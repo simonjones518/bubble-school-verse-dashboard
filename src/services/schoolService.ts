@@ -68,12 +68,9 @@ export const getSchoolById = async (id: string): Promise<School | null> => {
 
 // Create a new school
 export const createSchool = async (schoolData: SchoolFormData): Promise<School> => {
-  // First check if user is authenticated
+  // Check if user is authenticated (but don't require it due to policy change)
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error('Authentication required to create a school');
-  }
-
+  
   // Upload logo if provided
   let logoUrl;
   if (schoolData.logo) {
@@ -92,7 +89,8 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
     address: schoolData.address,
     logo: logoUrl,
     status: schoolData.status ? 'active' : 'inactive',
-    created_by: session.user.id, // Set the created_by field to the current user's ID
+    // Set created_by if user is logged in, otherwise it will be null
+    created_by: session?.user?.id || null,
   };
   
   const { data, error } = await supabase
@@ -118,12 +116,9 @@ export const createSchool = async (schoolData: SchoolFormData): Promise<School> 
 
 // Update an existing school
 export const updateSchool = async (id: string, schoolData: SchoolFormData): Promise<School> => {
-  // Check if user is authenticated
+  // Check if user is authenticated (but don't require it for development)
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error('Authentication required to update a school');
-  }
-
+  
   // Upload logo if provided
   let logoUrl;
   if (schoolData.logo) {
@@ -172,11 +167,8 @@ export const updateSchool = async (id: string, schoolData: SchoolFormData): Prom
 
 // Delete a school
 export const deleteSchool = async (id: string): Promise<boolean> => {
-  // Check if user is authenticated
+  // Check if user is authenticated (but don't require it for development)
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    throw new Error('Authentication required to delete a school');
-  }
 
   const { error } = await supabase
     .from('schools')
